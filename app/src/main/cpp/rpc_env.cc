@@ -48,6 +48,12 @@ int mkdir(const char* path, int /* ignored */) { return _mkdir(path); }
 #include <src/support/util.h>
 #include "rpc_env.h"
 
+#ifdef __ANDROID__
+
+#include <android/native_activity.h>
+
+#endif
+
 namespace {
     std::string GenerateUntarCommand(const std::string &tar_file, const std::string &output_dir) {
         std::string untar_cmd;
@@ -91,9 +97,29 @@ namespace tvm {
         std::string BuildSharedLibrary(std::string file_in);
 
         RPCEnv::RPCEnv() {
-#ifndef _WIN32
+#ifdef __ANDROID__
+            FILE *fp;
+            char *line = NULL;
+            size_t len = 0;
+            ssize_t read;
+
+            fp = fopen("/proc/self/cmdline", "r");
+            if (fp == NULL)
+                exit(EXIT_FAILURE);
+
+            while ((read = getline(&line, &len, fp)) != -1) {
+                LOG_INFO.stream() << "/data/data/" << line << "/";
+                break;
+            }
+            fclose(fp);
+            if (line)
+                free(line);
+            base_ = std::string("/data/data/") + line + "/rpc";
+#elif !defined(_WIN32)
             char cwd[PATH_MAX];
             if (getcwd(cwd, sizeof(cwd))) {
+                LOG_INFO.stream() << "cwd: " << cwd;
+
                 base_ = std::string(cwd) + "/rpc";
             } else {
                 base_ = "./rpc";
@@ -280,13 +306,6 @@ namespace tvm {
             } else if (support::EndsWith(file, ".tar")) {
                 const std::string tmp_dir = "./rpc/tmp/";
                 mkdir(tmp_dir.c_str(), 0777);
-                char cwd[PATH_MAX];
-                if (getcwd(cwd, sizeof(cwd)) != NULL) {
-                    LOG_INFO.stream() << "Current working dir: " << cwd;
-                } else {
-                    LOG_INFO.stream() << "getcwd() error";
-                }
-
 
                 const std::string cmd = GenerateUntarCommand(file, tmp_dir);
 

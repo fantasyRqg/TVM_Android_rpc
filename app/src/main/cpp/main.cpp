@@ -15,7 +15,8 @@
 
 void start_rpc(JNIEnv *env, jclass) {
     ALOGD("start_rpc");
-    tvm::runtime::RPCServerCreate("0.0.0.0", 9090, 9099, "('192.168.31.79', 9190)", "android", "", false);
+    tvm::runtime::RPCServerCreate("0.0.0.0", 9090, 9099, "('192.168.31.79', 9190)", "android", "\"172.16.212.55\"", false);
+//    tvm::runtime::RPCServerCreate("0.0.0.0", 9090, 9099, "('192.168.31.79', 9190)", "android", "", false);
     ALOGD("rpc end");
 }
 

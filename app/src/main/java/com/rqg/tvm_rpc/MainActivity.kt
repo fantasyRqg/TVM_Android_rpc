@@ -3,59 +3,57 @@ package com.rqg.tvm_rpc
 import android.Manifest
 import android.content.Context
 import android.os.Bundle
-import android.os.PowerManager
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tbruyelle.rxpermissions3.RxPermissions
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
+
+        private const val SP_PORT = "SP_PORT"
+        private const val SP_TRACKER = "SP_TRACKER"
+        private const val SP_CUSTOM = "SP_CUSTOM"
     }
 
-    private var wakeLock: PowerManager.WakeLock? = null
+    private val seps by lazy { getSharedPreferences("nnnnn", Context.MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        wakeLock = (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-            newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TVM_RPC:RUN").apply {
-                acquire(Long.MAX_VALUE)
-            }
-        }
+        etPort.setText(seps.getInt(SP_PORT, 9090).toString())
+        etTrackerAddr.setText(seps.getString(SP_TRACKER, "('192.168.31.79', 9190)"))
+        etCustomAddr.setText(seps.getString(SP_CUSTOM, "\"172.16.212.55\""))
 
-        RxPermissions(this)
-            .request(Manifest.permission.WAKE_LOCK)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { granted ->
-                if (granted) {
+        btnStart.setOnClickListener {
+            btnStart.isEnabled = false
+            val port = etPort.text.toString().toInt()
+            val tracker = etTrackerAddr.text.toString()
+            val custom = etCustomAddr.text.toString()
 
-                    thread {
-                        BridgeNative.runRPC()
+
+            seps.edit()
+                .putInt(SP_PORT, port)
+                .putString(SP_TRACKER, tracker)
+                .putString(SP_CUSTOM, custom)
+                .apply()
+
+            RxPermissions(this)
+                .request(Manifest.permission.WAKE_LOCK)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { granted ->
+                    if (granted) {
+                        thread {
+                            BridgeNative.runRPC(port, tracker, custom)
+                        }
+                    } else {
+                        Toast.makeText(this, "permission deny", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this, "permission deny", Toast.LENGTH_SHORT).show()
                 }
-            }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        wakeLock?.release()
-        Log.d(TAG, "onDestroy() called")
+        }
     }
 }

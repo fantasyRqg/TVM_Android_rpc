@@ -13,16 +13,24 @@
 #define LOG_TAG "acs_native"
 
 
-void start_rpc(JNIEnv *env, jclass) {
+void start_rpc(JNIEnv *env, jclass, jint port, jstring _tracker_addr, jstring _custom_addr) {
     ALOGD("start_rpc");
-    tvm::runtime::RPCServerCreate("0.0.0.0", 9090, 9099, "('192.168.31.79', 9190)", "android", "\"172.16.212.55\"", false);
+//    "('192.168.31.79', 9190)"
+//    "\"172.16.212.55\""
+
+    auto tracker_addr = env->GetStringUTFChars(_tracker_addr, nullptr);
+    auto custom_addr = env->GetStringUTFChars(_custom_addr, nullptr);
+    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android", custom_addr, false);
+
+    env->ReleaseStringUTFChars(_tracker_addr, tracker_addr);
+    env->ReleaseStringUTFChars(_custom_addr, custom_addr);
 //    tvm::runtime::RPCServerCreate("0.0.0.0", 9090, 9099, "('192.168.31.79', 9190)", "android", "", false);
     ALOGD("rpc end");
 }
 
 static const char *classPathName = "com/rqg/tvm_rpc/BridgeNative";
 static JNINativeMethod methods[] = {
-        {"runRPC", "()V", (void *) start_rpc},
+        {"runRPC", "(ILjava/lang/String;Ljava/lang/String;)V", (void *) start_rpc},
 };
 
 /*

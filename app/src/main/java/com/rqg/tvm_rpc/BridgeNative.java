@@ -9,5 +9,5 @@ class BridgeNative {
     }
 
 
-    public static native void runRPC();
+    public static native void runRPC(int port, String trackerAddr, String customAddr);
 }

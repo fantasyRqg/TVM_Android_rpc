@@ -78,13 +78,8 @@
 #include "../src/runtime/vulkan/vulkan.cc"
 #endif
 
-#ifdef USE_SORT
 #include "../src/runtime/contrib/sort/sort.cc"
-#endif
-
-#ifdef USE_RANDOM
 #include "../src/runtime/contrib/random/random.cc"
-#endif
 
 #include <android/log.h>
 

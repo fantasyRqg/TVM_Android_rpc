@@ -5,7 +5,7 @@
 
 #include <jni.h>
 #include <dmlc/logging.h>
-#include "rpc_server.h"
+#include <rpc_server.h>
 
 #include "log.h"
 
@@ -19,7 +19,7 @@ void start_rpc(JNIEnv *env, jclass, jint port, jstring _tracker_addr, jstring _c
 
     auto tracker_addr = env->GetStringUTFChars(_tracker_addr, nullptr);
     auto custom_addr = env->GetStringUTFChars(_custom_addr, nullptr);
-    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android64", custom_addr, false);
+    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android", custom_addr, false);
 
     env->ReleaseStringUTFChars(_tracker_addr, tracker_addr);
     env->ReleaseStringUTFChars(_custom_addr, custom_addr);

@@ -9,6 +9,7 @@ import com.tbruyelle.rxpermissions3.RxPermissions
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.concurrent.thread
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -54,6 +55,10 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this, "permission deny", Toast.LENGTH_SHORT).show()
                     }
                 }
+        }
+
+        btnExit.setOnClickListener {
+            exitProcess(0)
         }
     }
 }

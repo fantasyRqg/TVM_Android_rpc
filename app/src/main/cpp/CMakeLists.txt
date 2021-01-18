@@ -7,14 +7,14 @@ include_directories(${TVM_ROOT})
 include_directories(${TVM_ROOT}/include)
 include_directories(${TVM_ROOT}/3rdparty/dlpack/include)
 include_directories(${TVM_ROOT}/3rdparty/dmlc-core/include)
+include_directories(${TVM_ROOT}/apps/cpp_rpc)
 
 
 add_library(tvm_glue
         SHARED
 
         main.cpp
-        rpc_env.cc
-        rpc_server.cc
+        rpc.cc
         runtime.cc
         )
 add_definitions( -DDMLC_LOG_CUSTOMIZE=1 )

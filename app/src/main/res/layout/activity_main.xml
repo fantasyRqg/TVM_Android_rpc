@@ -12,7 +12,7 @@
         android:id="@+id/etPort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="port"
+        android:hint="port: 9090"
         android:inputType="number"
         android:minWidth="280dp"
         android:minHeight="40dp" />
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="tracker addr"
-        android:inputType="number"
+        android:hint="tracker addr: 192.168.1.13:9091"
+        android:inputType="text"
         android:minWidth="280dp"
         android:minHeight="40dp" />
 
@@ -33,8 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="custom addr"
-        android:inputType="number"
+        android:hint="custom addr: 167.130.14.155"
+        android:inputType="text"
         android:minWidth="280dp"
         android:minHeight="40dp" />
 

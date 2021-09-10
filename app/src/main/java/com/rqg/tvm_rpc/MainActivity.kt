@@ -27,22 +27,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        etPort.setText(seps.getInt(SP_PORT, 9090).toString())
-        etTrackerAddr.setText(seps.getString(SP_TRACKER, "('192.168.31.79', 9190)"))
-        etCustomAddr.setText(seps.getString(SP_CUSTOM, "\"172.16.212.55\""))
+        if (seps.contains(SP_PORT)) {
+            etPort.setText(seps.getInt(SP_PORT, 9090).toString())
+        }
+        etTrackerAddr.setText(seps.getString(SP_TRACKER, null))
+        etCustomAddr.setText(seps.getString(SP_CUSTOM, null))
+
 
         btnStart.setOnClickListener {
             btnStart.isEnabled = false
             thread_group.isEnabled = false
             val port = etPort.text.toString().toInt()
             val tracker = etTrackerAddr.text.toString()
-            val custom = etCustomAddr.text.toString()
+            val customAddr = etCustomAddr.text.toString()
 
+            val trackerParts = tracker.split(":")
+            Log.d(TAG, "onCreate: ${trackerParts}")
+            if (trackerParts.size != 2) {
+                Toast.makeText(this, "invalid tracker address", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val cmd_tracker = "('${trackerParts[0]}', ${trackerParts[1]})"
+
+            val cmd_custom = if (customAddr.isNotBlank()) {
+                "\"$customAddr\""
+            } else {
+                ""
+            }
 
             seps.edit()
                 .putInt(SP_PORT, port)
                 .putString(SP_TRACKER, tracker)
-                .putString(SP_CUSTOM, custom)
+                .putString(SP_CUSTOM, customAddr)
                 .apply()
 
             RxPermissions(this)
@@ -54,10 +71,12 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG, "onCreate: ${thread_spinner.selectedItem}")
                             BridgeNative.runRPC(port, tracker, custom, thread_spinner.selectedItem.toString())
                         }
+                        btnStart.isEnabled = false
                     } else {
                         Toast.makeText(this, "permission deny", Toast.LENGTH_SHORT).show()
                     }
                 }
+
         }
 
         btnExit.setOnClickListener {

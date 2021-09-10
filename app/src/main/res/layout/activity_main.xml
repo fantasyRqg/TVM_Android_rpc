@@ -38,6 +38,28 @@
         android:minWidth="280dp"
         android:minHeight="40dp" />
 
+    <LinearLayout
+        android:id="@+id/thread_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="thread nums:"
+            android:textSize="23dp" />
+
+        <Spinner
+            android:id="@+id/thread_spinner"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:entries="@array/thread_numbs_item" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnStart"

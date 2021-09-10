@@ -10,6 +10,10 @@ include_directories(${TVM_ROOT}/3rdparty/dmlc-core/include)
 include_directories(${TVM_ROOT}/apps/cpp_rpc)
 
 
+add_definitions( -DDMLC_USE_LOGGING_LIBRARY=<tvm/runtime/logging.h> )
+add_definitions( -DTVM_USE_LIBBACKTRACE=0 )
+add_definitions( -DTVM_LOG_CUSTOMIZE=1 )
+
 add_library(tvm_glue
         SHARED
 

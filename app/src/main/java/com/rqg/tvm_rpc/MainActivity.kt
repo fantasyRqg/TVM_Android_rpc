@@ -3,6 +3,7 @@ package com.rqg.tvm_rpc
 import android.Manifest
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tbruyelle.rxpermissions3.RxPermissions
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         btnStart.setOnClickListener {
             btnStart.isEnabled = false
+            thread_group.isEnabled = false
             val port = etPort.text.toString().toInt()
             val tracker = etTrackerAddr.text.toString()
             val custom = etCustomAddr.text.toString()
@@ -49,7 +51,8 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { granted ->
                     if (granted) {
                         thread {
-                            BridgeNative.runRPC(port, tracker, custom)
+                            Log.d(TAG, "onCreate: ${thread_spinner.selectedItem}")
+                            BridgeNative.runRPC(port, tracker, custom, thread_spinner.selectedItem.toString())
                         }
                     } else {
                         Toast.makeText(this, "permission deny", Toast.LENGTH_SHORT).show()
@@ -60,5 +63,6 @@ class MainActivity : AppCompatActivity() {
         btnExit.setOnClickListener {
             exitProcess(0)
         }
+
     }
 }

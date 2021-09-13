@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     if (granted) {
                         thread {
                             Log.d(TAG, "onCreate: ${thread_spinner.selectedItem}")
-                            BridgeNative.runRPC(port, tracker, custom, thread_spinner.selectedItem.toString())
+                            BridgeNative.runRPC(port, cmd_tracker, cmd_custom, thread_spinner.selectedItem.toString())
                         }
                         btnStart.isEnabled = false
                     } else {

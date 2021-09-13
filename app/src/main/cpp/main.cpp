@@ -31,7 +31,7 @@ void start_rpc(JNIEnv *env, jclass, jint port, jstring _tracker_addr, jstring _c
 //    setenv("TVM_EXCLUDE_WORKER0", "1", 1);
 //    (*tvm::runtime::Registry::Get("runtime.config_threadpool"))(-1, 5);
 
-    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android", custom_addr,
+    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android64", custom_addr,
                                   "", false);
 
     env->ReleaseStringUTFChars(_tracker_addr, tracker_addr);

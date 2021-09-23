@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,66 +8,102 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/l_key"
+        style="@style/tv_label"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="80dp"
+        android:text="key:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etKey"
+        style="@style/et_value"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:hint="acl"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@id/l_key"
+        app:layout_constraintLeft_toRightOf="@id/l_key"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/l_port"
+        style="@style/tv_label"
+        android:text="port:"
+        app:layout_constraintLeft_toLeftOf="@id/l_key"
+        app:layout_constraintTop_toBottomOf="@id/l_key" />
 
     <EditText
         android:id="@+id/etPort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="port: 9090"
+        style="@style/et_value"
+        android:hint="9090"
         android:inputType="number"
-        android:minWidth="280dp"
-        android:minHeight="40dp" />
+        app:layout_constraintBaseline_toBaselineOf="@id/l_port"
+        app:layout_constraintLeft_toLeftOf="@id/etKey"
+        app:layout_constraintRight_toRightOf="@id/etKey" />
+
+
+    <TextView
+        android:id="@+id/l_tracker"
+        style="@style/tv_label"
+        android:text="tracker addr:"
+        app:layout_constraintLeft_toLeftOf="@id/l_key"
+        app:layout_constraintTop_toBottomOf="@id/l_port" />
 
     <EditText
         android:id="@+id/etTrackerAddr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="tracker addr: 192.168.1.13:9091"
+        style="@style/et_value"
+        android:hint="192.168.1.13:9091"
         android:inputType="text"
-        android:minWidth="280dp"
-        android:minHeight="40dp" />
+        app:layout_constraintBaseline_toBaselineOf="@id/l_tracker"
+        app:layout_constraintLeft_toLeftOf="@id/etKey"
+        app:layout_constraintRight_toRightOf="@id/etKey" />
 
+    <TextView
+        android:id="@+id/l_custom"
+        style="@style/tv_label"
+        android:text="custom addr:"
+        app:layout_constraintLeft_toLeftOf="@id/l_key"
+        app:layout_constraintTop_toBottomOf="@id/l_tracker" />
 
     <EditText
         android:id="@+id/etCustomAddr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="custom addr: 167.130.14.155"
+        style="@style/et_value"
+        android:hint="167.130.14.155"
         android:inputType="text"
-        android:minWidth="280dp"
-        android:minHeight="40dp" />
+        app:layout_constraintBaseline_toBaselineOf="@id/l_custom"
+        app:layout_constraintLeft_toLeftOf="@id/etKey"
+        app:layout_constraintRight_toRightOf="@id/etKey" />
 
-    <LinearLayout
-        android:id="@+id/thread_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thread nums:"
-            android:textSize="23dp" />
+    <TextView
+        android:id="@+id/l_thread_num"
+        style="@style/tv_label"
+        android:text="thread num:"
+        app:layout_constraintLeft_toLeftOf="@id/l_key"
+        app:layout_constraintTop_toBottomOf="@id/l_custom" />
 
-        <Spinner
-            android:id="@+id/thread_spinner"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:entries="@array/thread_numbs_item" />
-    </LinearLayout>
+    <EditText
+        android:id="@+id/etThreadNum"
+        style="@style/et_value"
+        android:hint="2"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@id/l_thread_num"
+        app:layout_constraintLeft_toLeftOf="@id/etKey"
+        app:layout_constraintRight_toRightOf="@id/etKey" />
+
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Start" />
+        android:text="Start"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/l_thread_num" />
 
 
     <Button
@@ -74,6 +111,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Exit" />
+        android:text="Exit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnStart" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,13 +16,14 @@
 
 
 void start_rpc(JNIEnv *env, jclass, jint port, jstring _tracker_addr, jstring _custom_addr,
-               jstring _thread_nums) {
+               jstring _thread_nums, jstring _key) {
     ALOGD("start_rpc");
 //    "('192.168.31.79', 9190)"
 //    "\"172.16.212.55\""
     auto tracker_addr = env->GetStringUTFChars(_tracker_addr, nullptr);
     auto custom_addr = env->GetStringUTFChars(_custom_addr, nullptr);
     auto thread_nums = env->GetStringUTFChars(_thread_nums, nullptr);
+    auto key = env->GetStringUTFChars(_key, nullptr);
 
 
 //    setenv("TVM_NUM_THREADS", "5", 1);
@@ -31,18 +32,19 @@ void start_rpc(JNIEnv *env, jclass, jint port, jstring _tracker_addr, jstring _c
 //    setenv("TVM_EXCLUDE_WORKER0", "1", 1);
 //    (*tvm::runtime::Registry::Get("runtime.config_threadpool"))(-1, 5);
 
-    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, "android64", custom_addr,
+    tvm::runtime::RPCServerCreate("0.0.0.0", port, port + 100, tracker_addr, key, custom_addr,
                                   "", false);
 
     env->ReleaseStringUTFChars(_tracker_addr, tracker_addr);
     env->ReleaseStringUTFChars(_custom_addr, custom_addr);
     env->ReleaseStringUTFChars(_thread_nums, thread_nums);
+    env->ReleaseStringUTFChars(_key, key);
     ALOGD("rpc end");
 }
 
 static const char *classPathName = "com/rqg/tvm_rpc/BridgeNative";
 static JNINativeMethod methods[] = {
-        {"runRPC", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", (void *) start_rpc},
+        {"runRPC", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", (void *) start_rpc},
 };
 
 /*

@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         private const val SP_PORT = "SP_PORT"
         private const val SP_TRACKER = "SP_TRACKER"
         private const val SP_CUSTOM = "SP_CUSTOM"
+        private const val SP_KEY = "SP_KEY"
+        private const val SP_THREAD_NUM = "SP_THREAD_NUM"
     }
 
     private val seps by lazy { getSharedPreferences("nnnnn", Context.MODE_PRIVATE) }
@@ -32,14 +34,20 @@ class MainActivity : AppCompatActivity() {
         }
         etTrackerAddr.setText(seps.getString(SP_TRACKER, null))
         etCustomAddr.setText(seps.getString(SP_CUSTOM, null))
+        if (seps.contains(SP_THREAD_NUM)) {
+            etThreadNum.setText(seps.getInt(SP_THREAD_NUM, 2).toString())
+        }
+        etKey.setText(seps.getString(SP_KEY, null))
 
 
         btnStart.setOnClickListener {
             btnStart.isEnabled = false
-            thread_group.isEnabled = false
+
             val port = etPort.text.toString().toInt()
             val tracker = etTrackerAddr.text.toString()
             val customAddr = etCustomAddr.text.toString()
+            val key = etKey.text.toString()
+            val threadNum = etThreadNum.text.toString().toInt()
 
             val trackerParts = tracker.split(":")
             Log.d(TAG, "onCreate: ${trackerParts}")
@@ -60,6 +68,8 @@ class MainActivity : AppCompatActivity() {
                 .putInt(SP_PORT, port)
                 .putString(SP_TRACKER, tracker)
                 .putString(SP_CUSTOM, customAddr)
+                .putString(SP_KEY, key)
+                .putInt(SP_THREAD_NUM, threadNum)
                 .apply()
 
             RxPermissions(this)
@@ -68,8 +78,13 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { granted ->
                     if (granted) {
                         thread {
-                            Log.d(TAG, "onCreate: ${thread_spinner.selectedItem}")
-                            BridgeNative.runRPC(port, cmd_tracker, cmd_custom, thread_spinner.selectedItem.toString())
+                            BridgeNative.runRPC(
+                                port,
+                                cmd_tracker,
+                                cmd_custom,
+                                threadNum.toString(),
+                                key
+                            )
                         }
                         btnStart.isEnabled = false
                     } else {

@@ -5,6 +5,7 @@
 
 #define USE_SORT 1
 #define USE_RANDOM 1
+#define USE_ACL 1
 
 #include "../src/runtime/c_runtime_api.cc"
 #include "../src/runtime/cpu_device_api.cc"
@@ -49,6 +50,13 @@
 
 #ifdef USE_RANDOM
 #include "../src/runtime/contrib/random/random.cc"
+#endif
+
+#ifdef USE_ACL
+#include "../src/runtime/contrib/arm_compute_lib/acl_runtime.cc"
+#include "../src/runtime/contrib/arm_compute_lib/acl_allocator.cc"
+#include "../src/runtime/contrib/arm_compute_lib/acl_utils.cc"
+#include "../src/runtime/metadata_module.cc"
 #endif
 
 #include "log.h"

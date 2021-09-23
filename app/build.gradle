@@ -7,11 +7,10 @@ plugins {
 
 android {
     compileSdkVersion 29
-
+    ndkVersion "21.4.7075529"
     defaultConfig {
         applicationId "com.rqg.tvm_rpc"
         minSdkVersion 21
-        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -38,7 +37,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['src/main/cpp/libs/']
         }
     }
 

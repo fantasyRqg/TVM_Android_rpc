@@ -1,5 +1,4 @@
-
-m numpy.core.fromnumeric import shape
+from numpy.core.fromnumeric import shape
 import torch
 from torch._C import device
 import torchvision

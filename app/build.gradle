@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdkVersion 29
-    ndkVersion "21.4.7075529"
+    ndkVersion "23.0.7530507"
     defaultConfig {
         applicationId "com.rqg.tvm_rpc"
         minSdkVersion 21
@@ -16,12 +16,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-//        externalNativeBuild {
-//            cmake {
+        externalNativeBuild {
+            cmake {
 //                cppFlags "-std=c++11"
-//                arguments "-DANDROID_STL=c++_shared"
-//            }
-//        }
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
 
         ndk {
 //            abiFilters 'armeabi-v7a'
@@ -32,6 +32,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
+            version "3.21.3"
         }
     }
 

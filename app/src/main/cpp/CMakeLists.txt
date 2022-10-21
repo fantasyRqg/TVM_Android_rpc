@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.19)
 
-set(CMAKE_CXX_STANDARD 14)
+project(tvm_glue)
 
-set(TVM_ROOT /Users/rqg/test/tvm/)
+set(CMAKE_CXX_STANDARD 17)
+
+set(TVM_ROOT /Users/rqg/Playground/tvm)
 include_directories(${TVM_ROOT})
 include_directories(${TVM_ROOT}/include)
 include_directories(${TVM_ROOT}/3rdparty/dlpack/include)
@@ -22,7 +24,6 @@ add_library(tvm_glue
 
         main.cpp
         rpc.cc
-        runtime.cc
         )
 
 target_link_libraries(

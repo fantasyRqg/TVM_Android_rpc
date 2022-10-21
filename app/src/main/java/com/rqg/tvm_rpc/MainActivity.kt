@@ -43,11 +43,20 @@ class MainActivity : AppCompatActivity() {
         btnStart.setOnClickListener {
             btnStart.isEnabled = false
 
-            val port = etPort.text.toString().toInt()
+            val port = if (etPort.text.toString().isEmpty()) {
+                etPort.hint.toString()
+                    .toInt()
+            } else {
+                etPort.text.toString().toInt()
+            }
             val tracker = etTrackerAddr.text.toString()
             val customAddr = etCustomAddr.text.toString()
             val key = etKey.text.toString()
-            val threadNum = etThreadNum.text.toString().toInt()
+            val threadNum = if (etThreadNum.text.toString().isEmpty()) {
+                etThreadNum.hint.toString().toInt()
+            } else {
+                etThreadNum.text.toString().toInt()
+            }
 
             val trackerParts = tracker.split(":")
             Log.d(TAG, "onCreate: ${trackerParts}")
